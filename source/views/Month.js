@@ -87,7 +87,7 @@ enyo.kind({
 
 		//Get date formatter:
 		var options = {};		
-		options.date = "d m y";
+		options.date = "my";
 		options.length = "full";
 		this.formatter = new ilib.DateFmt(options);
 
