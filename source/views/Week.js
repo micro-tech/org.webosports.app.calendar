@@ -82,15 +82,10 @@ enyo.kind({
 			]},
 			{kind: "Scroller", name: "weekTimes", classes: "day-scroller", horizontal: "hidden", fit: true, touch: true, thumb: false, components: [
 				{style: "height: 20px"},
-//				{name: "weekContainer", className: "week-container", kind: enyo.Control, components: [
-
-				//	{name: "hourLabels", className: "hours", kind: "calendar.day.DayHours"},
-					{name: "WeekCurrentTime", classes: "week-current-time", showing: false},
-					{name: "week", className: "days enyo-fit", kind: "enyo.FittableColumns"}
-						//Dynamically loaded.
-					//Note that we don't use a List because that has too much overhead. A simple for loop accomplishes everything we need.
-//				]}
-		
+				{name: "WeekCurrentTime", classes: "week-current-time", showing: false},
+				{name: "week", className: "days enyo-fit", kind: "enyo.FittableColumns"}
+					//Dynamically loaded.
+				//Note that we don't use a List because that has too much overhead. A simple for loop accomplishes everything we need.
 			]}
 		]}
 	],
@@ -120,7 +115,7 @@ enyo.kind({
 			this.date = moment(this.date);
 		}
 		this.generateView();
-		this.rendered;
+//		this.rendered;
 	},
 	
 	rendered: function(){
@@ -173,36 +168,9 @@ enyo.kind({
 	significantScroll: function(){
 		var c = this.$.weekTimes.getClientControls();
 		var ts = this.$.weekTimes;	
-		var scrolltop = ts.getScrollTop();
-	//	console.log("scrolling",c,ts,scrolltop,this.sigScrol);
 		
 		ts.scrollToControl(c[moment().hours() ], true);
-		/*
-		
-		
-		if(this.sigScroll < 2){
-			this.sigScroll++;
-			if(moment().diff(this.date, "days") === 0){
-				//Scroll to current time:
-				ts.scrollToControl(c[moment().hours() + 3], true);
-				ts.setScrollTop(scrolltop + 1);
-				console.log("scrolltop !== ts.getScrollTop()", scrolltop , ts.getScrollTop());
-				if( scrolltop !== ts.getScrollTop()){
-					console.log("if");
-					ts.setScrollTop(ts.getScrollTop() - 10);
-				}
-			}else{
-				//Scroll to current time:
-				console.log("else", scrolltop , ts.getScrollTop() );
-				ts.scrollToControl(c[8 + 3], true);
-			
-				ts.setScrollTop( scrolltop + 1);
-				if( scrolltop !== ts.getScrollTop()){
-					console.log("else/if", scrolltop , ts.getScrollTop() );
-					ts.setScrollTop(ts.getScrollTop() - 10);
-				}
-			}
-		} */
+	
 	},
 	
 	setTimeBar: function(){
@@ -211,11 +179,13 @@ enyo.kind({
 			//Set Bar:
 			var height = moment().hours() * this.getRowHeight();
 			height += Math.floor((this.getRowHeight())*((moment().minutes()/60)));
-//			console.log("STYLE", this, this.$.WeekCurrentTime, this.$.WeekCurrentTime.getStyle);
-			this.$.WeekCurrentTime.applyStyle("top", height + "px");
-			
+
+			if(!this.$.WeekCurrentTime.getStyle() ){
+				this.$.WeekCurrentTime.applyStyle("top", height + "px");
+			}
 			if(this.timer){
 				window.clearTimeout(this.timer);
+				console.log("timer killed");
 			}
 			this.timer = window.setTimeout(enyo.bind(this, "setTimeBar"), 120000);
 			this.$.WeekCurrentTime.show();
@@ -224,6 +194,7 @@ enyo.kind({
 				window.clearTimeout(this.timer);
 			}
 			this.$.WeekCurrentTime.hide();
+		
 		}
 	},
 });
@@ -300,32 +271,39 @@ enyo.kind({
 			{classes: "week-row-half", fit : true},
 			{classes: "week-row-label", components: [
 				{content: "", name: "time"},
-				{content: "", name: "ampm", classes: "week-row-label-ampm"}
+				{content: "", name: "ampm", classes: "week-row-label-ampm"},
+				{content: "", name: "d0"}
 			]},
 		]},
 	
 		{classes: "week-row", components: [
 			{classes: "week-row-half"},
+			{content: "", name: "d1"}
 		]},
 		
 		{classes: "week-row", components: [
 			{classes: "week-row-half"},
+			{content: "", name: "d2"}
 		]},
 		
 		{classes: "week-row", components: [
 			{classes: "week-row-half"},
+			{content: "", name: "d3"}
 		]},
 		
 		{classes: "week-row", components: [
 			{classes: "week-row-half"},
+			{content: "", name: "d4"}
 		]},
 		
 		{classes: "week-row", components: [
 			{classes: "week-row-half"},
+			{content: "", name: "d5"}
 		]},
 		
 		{classes: "week-row", components: [
 			{classes: "week-row-half"},
+			{content: "", name: "d6"}
 		]},
 		
 	],
